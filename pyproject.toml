@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "imdb-scraping"
+version = "0.1.0"
+description = ""
+authors = ["gaurav-gaikwad-12071998 <122888092+gaurav-gaikwad-12071998@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+scrapy = "^2.11.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
