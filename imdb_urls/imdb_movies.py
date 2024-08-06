@@ -72,7 +72,8 @@ class ExtractMoviesListFromIMDB:
             print(e)
 
         path = os.path.join('data', f'movies_list_{self.year}.json')
-        self.extract_data(driver.page_source, path)
+        body = driver.page_source
+        self.extract_data(body, path)
 
 # if __name__ == '__main__':
 #     extract = ExtractMoviesListFromIMDB(1940)
