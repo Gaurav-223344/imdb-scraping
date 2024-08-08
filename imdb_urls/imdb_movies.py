@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 import time
 import json
@@ -42,9 +43,34 @@ class ExtractMoviesListFromIMDB:
         with open(path, 'w', encoding='utf-8') as json_file:
             json_file.write(json.dumps(items))
 
+    def _get_driver(self) -> webdriver.Chrome:
+
+        options = Options()
+        options.add_argument("--ignore-certificate-errors")
+        options.add_argument("--ignore-ssl-errors")
+        options.add_argument("--headless")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--allow-running-insecure-content")
+        options.add_argument("--disable-web-security")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--disable-infobars")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--disable-popup-blocking")
+        options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        )
+        
+        service = ChromeService(executable_path=ChromeDriverManager().install())
+
+        driver = webdriver.Chrome(
+            service=service, options=options
+        )
+        return driver
+    
     def run(self):
-        driver = webdriver.Chrome(service=ChromeService(
-            ChromeDriverManager().install()))
+        driver = self._get_driver()
 
         url = f'{self._base_url}/search/title/?title_type=feature&release_date={self.year}-01-01,{self.year}-12-31'
         driver.get(url)
